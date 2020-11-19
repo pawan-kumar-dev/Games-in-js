@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TIC TAC TOE</title>
+    <style>
+        body{
+            margin: 0;
+            background-color: antiquewhite;
+            height: 100vh;
+            width: 100%;
+            text-align: center;
+        }
+        div{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        table{
+            width: 40%;
+            border-collapse: collapse;
+        }
+        td{
+            border: 2px solid red;
+            width: 33%;
+            background-color: aqua;
+            height: 100px;
+            cursor:pointer;
+        }
+    </style>
+</head>
+<body>
+    <div>
+    <table>
+        <thead>
+            <tr>
+                <th colspan="3">TIC TAC TOE GAME</th>
+            </tr>
+            <tr>
+                <th id="player" colspan="3">Start</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td id="r1" onclick="printx('1')"></td>
+                <td id="r2" onclick="printx('2')"></td>
+                <td id="r3" onclick="printx('3')"></td>
+            </tr>
+            <tr>
+                <td id="r4" onclick="printx('4')"></td>
+                <td id="r5" onclick="printx('5')"></td>
+                <td id="r6" onclick="printx('6')"></td>
+            </tr>
+            <tr>
+                <td id="r7" onclick="printx('7')"></td>
+                <td id="r8" onclick="printx('8')"></td>
+                <td id="r9" onclick="printx('9')"></td>
+            </tr>
+        </tbody>
+        <tfoot id="winner">
+        </tfoot>
+    </table>
+</div>
+<script type="text/javascript">
+
+let sign="X";
+
+let display=document.getElementById("player");
+let win=document.getElementById("winner");
+function printx(number){
+    let element=document.getElementById("r"+number)
+    if(element.innerHTML===""){
+    element.innerHTML=sign;
+    checkSign();}
+}
+
+function checkSign(){
+    if(sign==="X"){sign="O";
+    display.innerHTML="X's Turn";
+    }
+    else{sign="X";
+    display.innerHTML="O's Turn";
+    }
+    winner();
+}
+
+function getBox(number){
+    return document.getElementById("r"+number).innerHTML
+}
+function checkMove(a,b,c,move){
+    if((getBox(a)==move)&&(getBox(b)==move)&&(getBox(c)==move)){
+        return true
+    }
+    else{
+        return false
+    }
+}
+function winner(){
+    if(checkMove(1,2,3,sign)||checkMove(4,5,6,sign)||checkMove(7,8,9,sign)||
+    checkMove(1,4,7,sign)||checkMove(2,5,8,sign)||checkMove(3,6,9,sign)||
+    checkMove(1,5,9,sign)||checkMove(7,5,3,sign)){
+        win.innerHTML="<tr><td colspan='3'>"+sign+" wins</td></tr>";
+        for(let i=1;i<=9;i++){
+            document.getElementById("r"+i).innerHTML="";
+        }
+    }
+    else{
+        if(getBox(1)!==''&&getBox(2)!==''&&getBox(3)!==''&&getBox(4)!==''&&getBox(5)!==''&&getBox(6)!==''&&getBox(7)!==''&&getBox(8)!==''&&getBox(9)!==''){
+            win.innerHTML="<tr><td colspan='3'>Tie....</td></tr>";
+        }
+    }
+}
+</script>
+</body>
+</html>

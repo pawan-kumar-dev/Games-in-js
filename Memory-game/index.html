@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memory Game</title>
+    <style>
+        .grid{
+        display: flex;
+        flex-wrap: wrap;
+        height: 300px;
+        width: 500px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Welcome to Memory Game.</h1>
+    <h1><span id="result"></span></h1>
+    <div class="grid">
+
+    </div>
+
+
+    <script type="text/javascript">
+    document.addEventListener('DOMContentLoaded',()=>{
+        const cardArray=[
+            {
+                name:'hotdog',
+                img:'images/hotdog.png'
+            },
+            {
+                name:'fries',
+                img:'images/fries.png'
+            },
+            {
+                name:'cheeseburger',
+                img:'images/cheeseburger.png'
+            },
+            {
+                name:'hotdog',
+                img:'images/hotdog.png'
+            },
+            {
+                name:'ice-cream',
+                img:'images/ice-cream.png'
+            },
+            {
+                name:'cheeseburger',
+                img:'images/cheeseburger.png'
+            },
+            {
+                name:'milkshake',
+                img:'images/milkshake.png'
+            },
+            {
+                name:'fries',
+                img:'images/fries.png'
+            },
+            {
+                name:'ice-cream',
+                img:'images/ice-cream.png'
+            },
+            {
+                name:'milkshake',
+                img:'images/milkshake.png'
+            }
+        ]
+        cardArray.sort(()=>Math.random()-0.5);
+        const grid=document.querySelector(".grid");
+            const result=document.querySelector("#result");
+        let cardChosen=[]//to store the chosen card Data
+        let cardChosenId=[]// to store the id of the chosen card Data
+        let cardsWon=[]// to store the winner cards
+        function cardBoard(){
+            for(let i=0;i<cardArray.length;i++){
+                var card=document.createElement('img');
+                card.setAttribute('src','images/blank.png')
+                card.setAttribute('data-id',i)
+                card.addEventListener('click',flipCard)
+               grid.appendChild(card)
+            }
+        }
+        cardBoard();
+
+        //check for the matches
+
+        function checkForMatch(){
+            var cards=document.querySelectorAll('img');
+            const optionOneId=cardChosenId[0];
+            const optionTwoId=cardChosenId[1]
+            if(cardChosen[0]===cardChosen[1]){
+                cards[optionOneId].setAttribute('src','images/white.png')
+                cards[optionTwoId].setAttribute('src','images/white.png')
+                cards[optionOneId].style.visibility="hidden";
+                cards[optionTwoId].style.visibility="hidden";
+                cardsWon.push(cardChosen)
+            }else{
+                cards[optionOneId].setAttribute('src','images/blank.png');
+                cards[optionTwoId].setAttribute('src','images/blank.png');
+            }
+            cardChosen=[];
+            cardChosenId=[];
+            result.textContent=cardsWon.length
+            if(cardsWon.length===cardArray.length/2){
+                result.textContent='Congrats You Won, New Game starts in Few Seconds';
+                setTimeout(() => {
+                    window.location.reload();
+                }, 3500);
+            }
+        }
+
+
+        //check for the matches
+        function flipCard(){
+            var cardId=this.getAttribute('data-id');
+            cardChosen.push(cardArray[cardId].name)
+            cardChosenId.push(cardId)
+            this.setAttribute('src',cardArray[cardId].img)
+            if(cardChosen.length===2){
+                setTimeout(checkForMatch,500);
+            }
+        }
+    })
+    </script>
+</body>
+</html>
